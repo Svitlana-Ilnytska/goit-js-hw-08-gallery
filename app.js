@@ -64,12 +64,19 @@ const galleryItems = [
   },
 ];
 
+const refs = {
+  lightbox: document.querySelector(".js-lightbox"),
+  lightboxImage: document.querySelector(".lightbox___image"),
+  closeBtn: document.querySelector('button[data-action="close-lightbox"]'),
+  overlay: document.querySelector(".lightbox__content"),
+};
+
 const iconsContainer = document.querySelector(".js-gallery");
 const cardsIcons = createGalery(galleryItems);
 
 iconsContainer.insertAdjacentHTML("beforeend", cardsIcons);
 
-// iconsContainer.addEventListener("click", onPaletteContainerClick);
+iconsContainer.addEventListener("click", onIconContainerClick);
 
 function createGalery(icons) {
   return icons
@@ -95,13 +102,14 @@ function createGalery(icons) {
 }
 // console.log(createGalery(icons));
 
-// function onPaletteContainerClick(evt) {
-//   const isColorSwatchEl = evt.target.classList.contains("color-swatch");
+function onIconContainerClick(e) {
+  const isEl = e.target.classList.contains("gallery__image");
 
-//   if (!isColorSwatchEl) {
-//     return;
-//   }
-
+  if (!isEl) {
+    return;
+  }
+  console.log(e.target.dataset.original);
+}
 //   const swatchEl = evt.target;
 //   const parentColorCard = swatchEl.closest(".color-card");
 
@@ -109,6 +117,21 @@ function createGalery(icons) {
 //   addActiveCardClass(parentColorCard);
 //   setBodyBgColor(swatchEl.dataset.hex);
 // }
+
+const openModal = (e) => {
+  e.preventDefault();
+  if (e.target.nodeName !== "IMG") {
+    return;
+  }
+
+  const imgOriginal = e.target.dataset.original;
+  const imgAlt = e.target.alt;
+  lightbox.classList.add("is-open");
+  lightbox__image.src = imgOriginal;
+  lightbox__image.alt = imgAlt;
+
+  // window.addEventListener("keydown", closeModalKeypress);
+};
 
 // function setBodyBgColor(color) {
 //   document.body.style.backgroundColor = color;
@@ -125,3 +148,21 @@ function createGalery(icons) {
 // function addActiveCardClass(card) {
 //   card.classList.add("is-active");
 // }
+
+// відкрити модельне вікно - реалізація
+// const openModal = (e) => {
+//   e.preventDefault();
+//   if (e.target.nodeName !== "IMG") {
+//     return;
+//   }
+
+//   const imgBigSrc = e.target.dataset.source;
+//   const imgAlt = e.target.alt;
+//   lightbox.classList.add("is-open");
+//   lightbox__image.src = imgBigSrc;
+//   lightbox__image.alt = imgAlt;
+
+//   window.addEventListener("keydown", closeModalKeypress);
+// };
+
+// iconsContainer.addEventListener("click", openModal);
