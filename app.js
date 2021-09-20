@@ -68,16 +68,13 @@ const refs = {
   iconsContainer: document.querySelector(".js-gallery"),
   lightbox: document.querySelector(".js-lightbox"),
   lightboxImage: document.querySelector(".lightbox___image"),
-  closeBtn: document.querySelector('button[data-action="close-lightbox"]'),
+  closeButton: document.querySelector('button[data-action="close-lightbox"]'),
   overlay: document.querySelector(".lightbox__content"),
 };
 
-// const iconsContainer = document.querySelector(".js-gallery");
 const cardsIcons = createGalery(galleryItems);
-
 refs.iconsContainer.insertAdjacentHTML("beforeend", cardsIcons);
 
-// refs.iconsContainer.addEventListener("click", onIconContainerClick);
 
 function createGalery(icons) {
   return icons
@@ -100,35 +97,31 @@ function createGalery(icons) {
     })
     .join("");
 }
+
 // console.log(createGalery(icons));
 
-// function onIconContainerClick(e) {
-//   const isEl = e.target.classList.contains(".gallery__image");
 
-//   if (!isEl) {
-//     return;
-//   }
-//   console.log(e.target.dataset.sourse);
-// }
-//   const swatchEl = evt.target;
-//   const parentColorCard = swatchEl.closest(".color-card");
-
-//   removeActiveCardClass();
-//   addActiveCardClass(parentColorCard);
-//   setBodyBgColor(swatchEl.dataset.hex);
-// }
-refs.iconsContainer.addEventListener("click", openModal);
-const openModal = (e) => {
-  e.preventDefault();
-  if (e.target.nodeName !== "IMG") {
+const openModal = evt => {
+  evt.preventDefault();
+  if (evt.target.nodeName !== "IMG") {
     return;
   }
+  // const imgOriginal = evt.target.dataset.source;
+  // const imgAlt = evt.target.alt;
+  refs.lightbox.classList.add("is-open");
+  refs.lightboxImage.src = evt.target.dataset.source;
+  refs.lightboxImage.alt = evt.target.alt;
 
-  const imgOriginal = e.target.dataset.sourse;
-  const imgAlt = e.target.alt;
-  lightbox.classList.add(".lightbox.is-open");
-  lightboxImage.src = imgOriginal;
-  lightboxImage.alt = imgAlt;
-
-  // window.addEventListener("keydown", closeModalKeypress);
 };
+
+refs.iconsContainer.addEventListener("click", openModal);
+
+const closeButtonModal = evt => {
+  if(evt.target.nodeName !== "BUTTON") {
+    return;
+  }
+  refs.lightbox.classList.remove("is-open");
+};
+
+refs.closeButton.addEventListener("click", closeButtonModal);
+
