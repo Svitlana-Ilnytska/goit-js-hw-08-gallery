@@ -67,14 +67,13 @@ const galleryItems = [
 const refs = {
   iconsContainer: document.querySelector(".js-gallery"),
   lightbox: document.querySelector(".js-lightbox"),
-  lightboxImage: document.querySelector(".lightbox___image"),
+  lightboxImage: document.querySelector(".lightbox__image"),
+  overlay: document.querySelector(".lightbox__overlay"),
   closeButton: document.querySelector('button[data-action="close-lightbox"]'),
-  overlay: document.querySelector(".lightbox__content"),
 };
 
 const cardsIcons = createGalery(galleryItems);
 refs.iconsContainer.insertAdjacentHTML("beforeend", cardsIcons);
-
 
 function createGalery(icons) {
   return icons
@@ -100,27 +99,58 @@ function createGalery(icons) {
 
 // console.log(createGalery(icons));
 
-
-const openModal = evt => {
+const openModal = (evt) => {
   evt.preventDefault();
   if (evt.target.nodeName !== "IMG") {
     return;
   }
-  // const imgOriginal = evt.target.dataset.source;
-  // const imgAlt = evt.target.alt;
+
   refs.lightbox.classList.add("is-open");
   refs.lightboxImage.src = evt.target.dataset.source;
   refs.lightboxImage.alt = evt.target.alt;
 
+  // window.addEventListener("keydown",  closeEsc);
 };
 
 refs.iconsContainer.addEventListener("click", openModal);
 
-const closeButtonModal = evt => {
-  if(evt.target.nodeName !== "BUTTON") {
-    return;
-  }
+const closeButtonModal = (evt) => {
   refs.lightbox.classList.remove("is-open");
+  refs.lightboxImage.src = "../images/image_loading.gif";
+
+  // window.removeEventListener("keydown", closeEsc);
 };
 
 refs.closeButton.addEventListener("click", closeButtonModal);
+
+const closeEsc = (evt) => {
+  if (evt.code !== "Escape") {
+    return;
+  }
+  closeButtonModal();
+};
+
+window.addEventListener("keydown", closeEsc);
+
+const closePressOnOverlay = (evt) => {
+  if (evt.target !== evt.currentTarget) {
+    return;
+  }
+  closeButtonModal();
+};
+
+refs.overlay.addEventListener("click", closePressOnOverlay);
+
+
+
+
+
+
+document.addEventListener("keydown", function(evt) {
+  if (evt.code === "ArrowLeft") {
+      window.location.hash = "IMG" + (parseInt(window.location.hash.substring(9)) - 1);
+  }
+  else if (evt.code === "ArrowRight") {
+      window.location.hash = "IMG" + (parseInt(window.location.hash.substring(9)) + 1);
+  }
+},true);
