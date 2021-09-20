@@ -124,4 +124,3 @@ const closeButtonModal = evt => {
 };
 
 refs.closeButton.addEventListener("click", closeButtonModal);
-
