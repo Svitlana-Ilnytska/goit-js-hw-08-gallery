@@ -65,51 +65,51 @@ const galleryItems = [
 ];
 
 const refs = {
+  iconsContainer: document.querySelector(".js-gallery"),
   lightbox: document.querySelector(".js-lightbox"),
   lightboxImage: document.querySelector(".lightbox___image"),
   closeBtn: document.querySelector('button[data-action="close-lightbox"]'),
   overlay: document.querySelector(".lightbox__content"),
 };
 
-const iconsContainer = document.querySelector(".js-gallery");
+// const iconsContainer = document.querySelector(".js-gallery");
 const cardsIcons = createGalery(galleryItems);
 
-iconsContainer.insertAdjacentHTML("beforeend", cardsIcons);
+refs.iconsContainer.insertAdjacentHTML("beforeend", cardsIcons);
 
-iconsContainer.addEventListener("click", onIconContainerClick);
+// refs.iconsContainer.addEventListener("click", onIconContainerClick);
 
 function createGalery(icons) {
   return icons
     .map(({ preview, original, description }) => {
       return `
-   
-<li class="gallery__item">
-<a
-  class="gallery__link"
-  href="${original}"
->
-  <img
-    class="gallery__image"
-    src="${preview}"
-    data-source="${original}"
-    alt="${description}"
-  />
-</a>
-</li>
+      <li class="gallery__item">
+        <a
+        class="gallery__link"
+        href="${original}"
+        >
+        <img
+        class="gallery__image"
+        src="${preview}"
+        data-source="${original}"
+        alt="${description}"
+        />
+        </a>
+        </li>
     `;
     })
     .join("");
 }
 // console.log(createGalery(icons));
 
-function onIconContainerClick(e) {
-  const isEl = e.target.classList.contains("gallery__image");
+// function onIconContainerClick(e) {
+//   const isEl = e.target.classList.contains(".gallery__image");
 
-  if (!isEl) {
-    return;
-  }
-  console.log(e.target.dataset.original);
-}
+//   if (!isEl) {
+//     return;
+//   }
+//   console.log(e.target.dataset.sourse);
+// }
 //   const swatchEl = evt.target;
 //   const parentColorCard = swatchEl.closest(".color-card");
 
@@ -117,52 +117,18 @@ function onIconContainerClick(e) {
 //   addActiveCardClass(parentColorCard);
 //   setBodyBgColor(swatchEl.dataset.hex);
 // }
-
+refs.iconsContainer.addEventListener("click", openModal);
 const openModal = (e) => {
   e.preventDefault();
   if (e.target.nodeName !== "IMG") {
     return;
   }
 
-  const imgOriginal = e.target.dataset.original;
+  const imgOriginal = e.target.dataset.sourse;
   const imgAlt = e.target.alt;
-  lightbox.classList.add("is-open");
-  lightbox__image.src = imgOriginal;
-  lightbox__image.alt = imgAlt;
+  lightbox.classList.add(".lightbox.is-open");
+  lightboxImage.src = imgOriginal;
+  lightboxImage.alt = imgAlt;
 
   // window.addEventListener("keydown", closeModalKeypress);
 };
-
-// function setBodyBgColor(color) {
-//   document.body.style.backgroundColor = color;
-// }
-
-// function removeActiveCardClass() {
-//   const currentActiveCard = document.querySelector(".color-card.is-active");
-
-//   if (currentActiveCard) {
-//     currentActiveCard.classList.remove("is-active");
-//   }
-// }
-
-// function addActiveCardClass(card) {
-//   card.classList.add("is-active");
-// }
-
-// відкрити модельне вікно - реалізація
-// const openModal = (e) => {
-//   e.preventDefault();
-//   if (e.target.nodeName !== "IMG") {
-//     return;
-//   }
-
-//   const imgBigSrc = e.target.dataset.source;
-//   const imgAlt = e.target.alt;
-//   lightbox.classList.add("is-open");
-//   lightbox__image.src = imgBigSrc;
-//   lightbox__image.alt = imgAlt;
-
-//   window.addEventListener("keydown", closeModalKeypress);
-// };
-
-// iconsContainer.addEventListener("click", openModal);
