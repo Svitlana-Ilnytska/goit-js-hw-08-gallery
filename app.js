@@ -70,6 +70,7 @@ const refs = {
   lightboxImage: document.querySelector(".lightbox__image"),
   overlay: document.querySelector(".lightbox__overlay"),
   closeButton: document.querySelector('button[data-action="close-lightbox"]'),
+  
 };
 
 const cardsIcons = createGalery(galleryItems);
@@ -142,15 +143,37 @@ const closePressOnOverlay = (evt) => {
 refs.overlay.addEventListener("click", closePressOnOverlay);
 
 
+// galery scrolling
+
+const dataSources = [];
+const imageRef = document.querySelectorAll('.gallery__image');
+
+imageRef.forEach(element => {
+  dataSources.push(element.dataset.source)});
 
 
-
-
-document.addEventListener("keydown", function(evt) {
+document.addEventListener("keydown", evt => {
+  const currentIndex = dataSources.indexOf(refs.lightboxImage.src);
   if (evt.code === "ArrowLeft") {
-      window.location.hash = "IMG" + (parseInt(window.location.hash.substring(9)) - 1);
+      leftClick(currentIndex);
   }
   else if (evt.code === "ArrowRight") {
-      window.location.hash = "IMG" + (parseInt(window.location.hash.substring(9)) + 1);
+    rightClick(currentIndex);
   }
-},true);
+});
+
+function  leftClick(currentIndex) {
+  let nextIndex = currentIndex - 1;
+  if(nextIndex == -1) {
+    nextIndex = dataSources.length - 1;
+  }
+  refs.lightboxImage.src = dataSources[nextIndex];
+}
+
+function rightClick(currentIndex) {
+  let nextIndex = currentIndex + 1;
+  if(nextIndex == dataSources.length) {
+    nextIndex = 0;
+  }
+  refs.lightboxImage.src = dataSources[nextIndex];
+}
