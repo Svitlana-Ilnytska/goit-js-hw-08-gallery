@@ -143,7 +143,7 @@ const closePressOnOverlay = (evt) => {
 refs.overlay.addEventListener("click", closePressOnOverlay);
 
 
-// galery scrolling
+// gallery scrolling
 
 const dataSources = [];
 const imageRef = document.querySelectorAll('.gallery__image');
